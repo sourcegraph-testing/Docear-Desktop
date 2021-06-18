@@ -43,32 +43,32 @@ def handleFileSet(mainFile, files, changeFiles):
         keysPresent.append(indexFile(lines))
         missing = findMissingKeys(keys, keysPresent[i])
         
-        print("\n\nFile '"+files[i]+"'\n")
+        print "\n\nFile '"+files[i]+"'\n"
         if len(missing) == 0:
-            print("----> No missing keys.")
+            print "----> No missing keys."
         else:
-            print("----> Missing keys:")
+            print "----> Missing keys:"
             for key in missing:
-                print(key)
+                print key
 
             if changeFiles == 1:
-                print("Update file?", end=' ')
-                if input() in ['y', 'Y']:
+                print "Update file?",
+                if raw_input() in ['y', 'Y']:
                     appendMissingKeys(files[i], missing)
-            print("")
+            print ""
         
         # See if this file has keys that are not in the main file:
         redundant = findMissingKeys(keysPresent[i], keys)
         if len(redundant) > 0:
-            print("----> Possible redundant keys (not in English language file):")
+            print "----> Possible redundant keys (not in English language file):"
             for key in redundant:
-                print(key)
+                print key
                 
             #if changeFiles == 1:
             #   print "Update file?",
             #   if raw_input() in ['y', 'Y']:
             #       removeRedundantKeys(files[i], redundant)
-            print("")
+            print ""
         
                 
 def handleJavaCode(filename, lines, keyList, notTermList):
@@ -105,7 +105,7 @@ def handleJavaCode(filename, lines, keyList, notTermList):
             theSpan = lines[span[0]:span[1]]
             spanInner = pattInner.search(theSpan).span() # We know there's a match here.
             found = theSpan[spanInner[0]+1:spanInner[1]-1].replace(" ", "_")
-            print("Not terminated: "+found)
+            print "Not terminated: "+found
             
             # Remove the part of the file we have treated:
             if span[1] < len(lines):
@@ -134,7 +134,7 @@ def traverseFileTree(dir):
     keyList = []
     notTermList = []
     os.path.walk(dir, handleDir, (keyList, notTermList))
-    print("Keys found: "+str(len(keyList)))
+    print "Keys found: "+str(len(keyList))
     return keyList
 
     
@@ -165,14 +165,14 @@ def findNewKeysInJavaCode(mainFile, dir, update):
     # Look for keys that are used in the code, but not present in the language file:
     for key in keyList:
         if key not in keys:
-            print("Missing key: "+key)
+            print "Missing key: "+key
             if update:
                 f1.write(key+"="+key+"\n")
     
     # Look for keys in the language file that are not used in the code:
     for key in keys:
         if key not in keyList:
-            print("Possible redundant key: "+key)
+            print "Possible redundant key: "+key
         
     if update:
         f1.close()
@@ -195,14 +195,14 @@ def lookForDuplicates(file, displayKeys):
                 mappings[key].append(value)
                 duplicount += 1
                 if displayKeys:
-		  print("Duplicate: "+file+": "+key+" =", end=' ')
-		  print(mappings[key])
+		  print "Duplicate: "+file+": "+key+" =",
+		  print mappings[key]
             else:
                 mappings[key] = [value]
                 if value == "":
 		    emptyVals = emptyVals + 1
                     if displayKeys:
-		      print("Empty value: "+file+": "+key)
+		      print "Empty value: "+file+": "+key
                 #print "New: "+value
     if duplicount > 0:
 	dupstring = str(duplicount)+" duplicates. "
@@ -216,14 +216,14 @@ def lookForDuplicates(file, displayKeys):
 	okString = ""
     else:
 	okString = "ok"
-    print(file+": "+dupstring+emptStr+okString)
+    print file+": "+dupstring+emptStr+okString
     #print file+": "+str(emptyVals)+" empty values."
         
         
 ############# Main part ###################
 
 if len(sys.argv) == 1:
-    print("""This program must be run from the "src" directory right below the jabref base directory.
+    print """This program must be run from the "src" directory right below the jabref base directory.
     
 Usage: syncLang.py option   
 Option can be one of the following:
@@ -254,7 +254,7 @@ Option can be one of the following:
         
         If the -u option is specified, all missing keys will automatically be added to the files.
         There is currently no option to remove redundant keys automatically.
-""")
+"""
     
 elif (len(sys.argv) >= 2) and (sys.argv[1] == "-s"):
     if (len(sys.argv) >= 3) and (sys.argv[2] == "-u"):
