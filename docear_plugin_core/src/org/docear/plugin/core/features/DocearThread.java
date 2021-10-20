@@ -18,10 +18,7 @@ public abstract class DocearThread extends Thread {
 		try {
 			DocearController.getController().addWorkingThreadHandle(threadID);
 			this.execute();
-		} 
-		catch (InterruptedException e) {
-		}
-		finally {
+		} finally {
 			DocearController.getController().removeWorkingThreadHandle(threadID);
 		}
 	}
