@@ -247,10 +247,7 @@ public class ApplicationResourceController extends ResourceController {
 			outputStreamWriter.write('\n');
 			outputStreamWriter.flush();
 			props.store(out, null);
-		}
-		catch (final Exception ex) {
-		}
-		finally {
+		} finally {
 			if (out != null) {
 				try {
 					out.close();
